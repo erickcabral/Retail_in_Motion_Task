@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="binderModel"
+            type="ie.toxodev.retailinmotiontask.supportClasses.binderModels.ContainerTextInfoBinderModel" />
+
+    </data>
+
+    <LinearLayout
+        android:id="@+id/containerTextInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:minHeight="40dp"
+        android:orientation="vertical"
+        android:padding="4dp"
+        android:tag="@{binderModel.label}">
+
+        <TextView
+            android:id="@+id/tvContLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tag="@{binderModel.label}"
+            android:text="@{binderModel.label}"
+            tools:text="Label" />
+
+        <TextView
+            android:id="@+id/contTextInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bckg_retangular"
+            android:gravity="center_vertical"
+            android:padding="6dp"
+            android:tag="@{binderModel.label}"
+            android:text="@{binderModel.info}"
+            tools:text="INFO TO DISPLAY" />
+
+
+    </LinearLayout>
+</layout>

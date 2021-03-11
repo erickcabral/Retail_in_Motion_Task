@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RetailInMotionTask</string>
+    <string name="line_status_operative">Green Line services operating normally</string>
+</resources>
