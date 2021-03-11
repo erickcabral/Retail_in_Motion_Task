@@ -2,7 +2,10 @@ package ie.toxodev.retailinmotiontask.supportClasses
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import ie.toxodev.retailinmotiontask.R
+import ie.toxodev.retailinmotiontask.supportClasses.adapters.AdapterTram
+import ie.toxodev.retailinmotiontask.supportClasses.forecastResponse.Tram
 
 @BindingAdapter("bindAdapter:lineStatus")
 fun formatLineStatus(textView: TextView, text: String?) {
@@ -15,5 +18,17 @@ fun formatLineStatus(textView: TextView, text: String?) {
             else
                 resources.getColor(android.R.color.holo_red_dark, textView.context.theme)
         )
+    }
+}
+
+@BindingAdapter("bindAdapter:loadTramInfo")
+fun loadTramInfo(recyclerView: RecyclerView, list: List<Any>?) {
+    list?.let { tramList ->
+        AdapterTram(tramList as List<Tram>).also { adapter ->
+            recyclerView.run {
+                this.adapter = adapter
+                adapter.notifyDataSetChanged()
+            }
+        }
     }
 }

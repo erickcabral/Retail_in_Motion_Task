@@ -3,12 +3,15 @@ package ie.toxodev.retailinmotiontask
 import androidx.annotation.IdRes
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.ViewInteraction
+import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.rules.ActivityScenarioRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertDisplayed
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertNotDisplayed
 import com.schibsted.spain.barista.assertion.BaristaVisibilityAssertions.assertTextColorIs
+import com.schibsted.spain.barista.internal.performActionOnView
 import ie.toxodev.retailinmotiontask.activities.MainActivity
 import org.hamcrest.CoreMatchers.allOf
 import org.hamcrest.CoreMatchers.not
@@ -24,7 +27,7 @@ class ViewForecastFeatures {
 
     @Before
     fun setup() {
-        Thread.sleep(2000)
+        Thread.sleep(1000)
     }
 
     private fun contTextInfoHasText(@IdRes inclId: Int, @IdRes tvId: Int, text: String) {
@@ -48,6 +51,10 @@ class ViewForecastFeatures {
                 withId(tvId)
             )
         )
+    }
+
+    private fun clearTramList() {
+        //TODO()
     }
 
     @Test
@@ -82,5 +89,36 @@ class ViewForecastFeatures {
         findContTextInfo(R.id.inclDirection, R.id.contTextInfo).check(
             matches(not(withText("")))
         )
+    }
+
+
+    //================ RECYCLER TEST ================== //
+    @Test
+    fun recycler_view_empty_and_progressbar_displayed() {
+        //FIX THIS TEST
+        this.clearTramList()
+        onView(withId(R.id.recyclerTramInfo)).check(
+            matches(hasChildCount(0))
+        )
+        assertDisplayed(R.id.progressBar)
+    }
+
+    @Test
+    fun recycler_view_has_items_progress_not_displayed() {
+        assertNotDisplayed(R.id.progressBar)
+        onView(withId(R.id.recyclerTramInfo)).check(
+            matches(hasMinimumChildCount(1))
+        )
+    }
+
+    // =================== RENEW BUTTON TESTS =================== //
+    @Test
+    fun display_progress_when_update_button_clicked() {
+        performActionOnView(withId(R.id.floatBtnUpdate), click())
+
+        onView(withId(R.id.recyclerTramInfo)).check(
+            matches(hasChildCount(0))
+        )
+        assertDisplayed(R.id.progressBar)
     }
 }

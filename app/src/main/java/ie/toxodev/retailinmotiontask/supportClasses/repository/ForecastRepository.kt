@@ -13,7 +13,6 @@ import javax.inject.Inject
 class ForecastRepository @Inject constructor(private val forecastAPI: ForecastAPI) {
 
     val lvdForecastResult: MutableLiveData<Result<ForecastResponse>> = MutableLiveData()
-    val stilForecast: MutableLiveData<Result<ForecastResponse>> = MutableLiveData()
 
     lateinit var coroutineScope: CoroutineScope
 
@@ -24,11 +23,8 @@ class ForecastRepository @Inject constructor(private val forecastAPI: ForecastAP
     fun retrieveForecast(station: String) {
         this.coroutineScope.launch {
             forecastAPI.fetchForecast(station).collect {
+                Thread.sleep(250)
                 lvdForecastResult.postValue(it)
-    //                when (station) {
-    //                    ViewModelForecast.MARLBOROUGH -> lvdForecastResult.postValue(it)
-    //                    ViewModelForecast.STILLORGAN -> stilForecast.postValue(it)
-    //                }
             }
         }
     }

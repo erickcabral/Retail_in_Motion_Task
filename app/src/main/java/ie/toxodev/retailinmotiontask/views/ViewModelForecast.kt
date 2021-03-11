@@ -34,9 +34,9 @@ class ViewModelForecast @Inject constructor(
     }
 
     fun retrieveForecast(currentTime: LocalTime) {
-
         val isNoonOrMidnight = currentTime == LocalTime.NOON || currentTime == LocalTime.MIDNIGHT
         val marTimeGap = currentTime.isAfter(LocalTime.MIDNIGHT)&&currentTime.isBefore(LocalTime.NOON)
+
         if (marTimeGap || isNoonOrMidnight) {
             this.repository.retrieveForecast(MARLBOROUGH)
         } else {

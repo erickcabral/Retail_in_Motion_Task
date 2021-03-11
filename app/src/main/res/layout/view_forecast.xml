@@ -7,6 +7,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="tramList"
+            type="java.util.List" />
+
         <variable
             name="lineStatus"
             type="String" />
@@ -32,54 +38,8 @@
         android:fitsSystemWindows="true">
 
 
-        <TextView
-            android:id="@+id/tvLineStatus"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center_vertical|center_horizontal"
-            android:textSize="24sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            bindAdapter:lineStatus="@{lineStatus}"
-            tools:text="Line Status here" />
-
-        <include
-            android:id="@+id/inclStation"
-            layout="@layout/container_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLineStatus"
-            binder:binderModel="@{contStationBinder}" />
-
-        <include
-            android:id="@+id/inclStationAbv"
-            layout="@layout/container_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inclDirection"
-            binder:binderModel="@{contAbvBinder}" />
-
-        <include
-            android:id="@+id/inclDirection"
-            layout="@layout/container_info"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inclStation"
-            binder:binderModel="@{contDirectionBinder}" />
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton"
+            android:id="@+id/floatBtnUpdate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="24dp"
@@ -89,20 +49,91 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_update" />
 
+        <TextView
+            android:id="@+id/tvLineStatus"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:background="@drawable/bckg_retangular"
+            android:gravity="center_vertical|center_horizontal"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            bindAdapter:lineStatus="@{lineStatus}"
+            tools:text="@string/line_status_operative" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvLineStatus">
+
+            <include
+                android:id="@+id/inclStation"
+                layout="@layout/container_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                binder:binderModel="@{contStationBinder}" />
+
+            <include
+                android:id="@+id/inclStationAbv"
+                layout="@layout/container_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
+                binder:binderModel="@{contAbvBinder}" />
+        </LinearLayout>
+
+
+        <include
+            android:id="@+id/inclDirection"
+            layout="@layout/container_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            binder:binderModel="@{contDirectionBinder}" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerTramInfo"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+            app:layout_constraintTop_toBottomOf="@+id/inclDirection"
+            bindAdapter:loadTramInfo="@{tramList}"
+            tools:itemCount="5"
+            tools:listitem="@layout/container_tram_info" />
 
-        <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_begin="287dp" />
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/progressBar"
+            style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/bckg_retangular"
+            android:indeterminate="true"
+            android:visibility="@{tramList.empty?View.VISIBLE:View.GONE}"
+            app:hideAnimationBehavior="none"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerTramInfo"
+            app:layout_constraintEnd_toEndOf="@+id/recyclerTramInfo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/recyclerTramInfo"
+            app:showAnimationBehavior="inward" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
