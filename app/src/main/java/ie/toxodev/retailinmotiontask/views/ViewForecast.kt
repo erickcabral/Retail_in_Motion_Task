@@ -73,8 +73,12 @@ class ViewForecast : Fragment(), View.OnClickListener {
                 vModel.contStationBinder.apply { this.info = forecast.stop }
             this.contAbvBinder =
                 vModel.contStationAbvBinder.apply { this.info = forecast.stopAbv }
+
             this.contDirectionBinder =
                 vModel.contDirectionBinder.apply { this.info = forecast.direction[0].name }
+
+            this.contCurrentTime =
+                vModel.contCurrentTime.apply { this.info = vModel.getFormattedTime(forecast.created)}
         }
     }
 

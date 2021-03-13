@@ -13,9 +13,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containerTramInfo"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_margin="2dp"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        android:padding="6dp">
 
         <ImageView
             android:id="@+id/imageView"
@@ -24,34 +24,63 @@
             android:adjustViewBounds="true"
             android:cropToPadding="true"
             android:scaleType="fitCenter"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/ic_tram_filled"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvTramTime"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text='@{String.format("%s min",model.dueMins)}'
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:layout_marginHorizontal="2dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="00:00" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remaining time:"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/tvTramTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text='@{model.dueMins.contentEquals(@string/due_min)? model.dueMins:String.format(@string/remaining_min,model.dueMins)}'
+                android:textSize="14sp"
+                android:textStyle="bold"
+                tools:text="00 min" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@{model.destination}"
-            android:textSize="24sp"
+            android:layout_marginHorizontal="2dp"
+            android:layout_marginTop="4dp"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
-            tools:text="Destination" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Destination:"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.destination}"
+                android:textSize="18sp"
+                tools:text="Destination" />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

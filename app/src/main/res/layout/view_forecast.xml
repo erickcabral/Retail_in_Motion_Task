@@ -22,12 +22,17 @@
             type="ie.toxodev.retailinmotiontask.supportClasses.binderModels.ContainerTextInfoBinderModel" />
 
         <variable
+            name="contAbvBinder"
+            type="ie.toxodev.retailinmotiontask.supportClasses.binderModels.ContainerTextInfoBinderModel" />
+
+        <variable
             name="contDirectionBinder"
             type="ie.toxodev.retailinmotiontask.supportClasses.binderModels.ContainerTextInfoBinderModel" />
 
         <variable
-            name="contAbvBinder"
+            name="contCurrentTime"
             type="ie.toxodev.retailinmotiontask.supportClasses.binderModels.ContainerTextInfoBinderModel" />
+
 
     </data>
 
@@ -49,32 +54,44 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:srcCompat="@drawable/ic_update" />
 
-        <TextView
-            android:id="@+id/tvLineStatus"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/bckg_retangular"
-            android:gravity="center_vertical|center_horizontal"
-            android:textColor="@android:color/holo_red_dark"
-            android:textSize="18sp"
+            android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            bindAdapter:lineStatus="@{lineStatus}"
-            tools:text="@string/line_status_operative" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvContLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:text="@string/txt_line_status" />
+
+            <TextView
+                android:id="@+id/tvLineStatus"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="8dp"
+                android:background="@drawable/bckg_retangular"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@android:color/holo_red_dark"
+                android:textSize="18sp"
+                bindAdapter:lineStatus="@{lineStatus}"
+                tools:text="@string/line_status_operative" />
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvLineStatus">
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4">
 
             <include
                 android:id="@+id/inclStation"
@@ -94,28 +111,40 @@
         </LinearLayout>
 
 
-        <include
-            android:id="@+id/inclDirection"
-            layout="@layout/container_info"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            binder:binderModel="@{contDirectionBinder}" />
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <include
+                android:id="@+id/inclCurrentTime"
+                layout="@layout/container_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                binder:binderModel="@{contCurrentTime}" />
+
+            <include
+                android:id="@+id/inclDirection"
+                layout="@layout/container_info"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="6"
+                binder:binderModel="@{contDirectionBinder}" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerTramInfo"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/inclDirection"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
             bindAdapter:loadTramInfo="@{tramList}"
             tools:itemCount="5"
             tools:listitem="@layout/container_tram_info" />
@@ -123,9 +152,8 @@
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progressBar"
             style="@style/Widget.MaterialComponents.CircularProgressIndicator"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/bckg_retangular"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:indeterminate="true"
             android:visibility="@{tramList.empty?View.VISIBLE:View.GONE}"
             app:hideAnimationBehavior="none"

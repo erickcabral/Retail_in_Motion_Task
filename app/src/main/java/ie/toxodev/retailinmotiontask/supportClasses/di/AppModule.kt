@@ -1,9 +1,11 @@
 package ie.toxodev.retailinmotiontask.supportClasses.di
 
+import android.content.Context
 import com.tickaroo.tikxml.retrofit.TikXmlConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import ie.toxodev.retailinmotiontask.supportClasses.forecastAPI.API
 import okhttp3.OkHttpClient
@@ -16,6 +18,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
+
+    @Singleton
+    @Provides
+    fun appContext(@ApplicationContext context: Context) = context
+
     @Provides
     @Singleton
     fun providesOkHttpInterceptor(): OkHttpClient {
@@ -24,8 +31,8 @@ object AppModule {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(interceptor)
-            .connectTimeout(20, TimeUnit.SECONDS)
-            .readTimeout(20, TimeUnit.SECONDS)
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
         return builder.build()
     }
 

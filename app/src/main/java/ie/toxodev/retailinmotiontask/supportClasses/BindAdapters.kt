@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ie.toxodev.retailinmotiontask.R
 import ie.toxodev.retailinmotiontask.supportClasses.adapters.AdapterTram
 import ie.toxodev.retailinmotiontask.supportClasses.forecastResponse.Tram
+import java.time.format.DateTimeFormatter
 
 @BindingAdapter("bindAdapter:lineStatus")
 fun formatLineStatus(textView: TextView, text: String?) {
@@ -29,6 +30,15 @@ fun loadTramInfo(recyclerView: RecyclerView, list: List<Any>?) {
                 this.adapter = adapter
                 adapter.notifyDataSetChanged()
             }
+        }
+    }
+}
+
+@BindingAdapter("bindAdapter:formatTime")
+fun formatDateTime(textView: TextView, datetime:String?){
+    datetime?.let { time->
+        DateTimeFormatter.ofPattern("HH:MM:ss").parse(time).run {
+            this
         }
     }
 }

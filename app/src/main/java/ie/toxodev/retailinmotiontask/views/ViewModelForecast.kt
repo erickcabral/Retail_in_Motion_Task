@@ -8,7 +8,9 @@ import ie.toxodev.retailinmotiontask.supportClasses.repository.ForecastRepositor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import java.time.LocalDateTime
 import java.time.LocalTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -16,9 +18,18 @@ class ViewModelForecast @Inject constructor(
     private val repository: ForecastRepository
 ) : ViewModel() {
 
-    val contStationBinder: ContainerTextInfoBinderModel = ContainerTextInfoBinderModel("Station")
-    val contStationAbvBinder: ContainerTextInfoBinderModel = ContainerTextInfoBinderModel("Station Abv")
-    val contDirectionBinder: ContainerTextInfoBinderModel = ContainerTextInfoBinderModel("Direction")
+    val contStationBinder: ContainerTextInfoBinderModel = ContainerTextInfoBinderModel(
+        "Station"
+    )
+
+    val contStationAbvBinder: ContainerTextInfoBinderModel =
+        ContainerTextInfoBinderModel("Station Abv")
+
+    val contDirectionBinder: ContainerTextInfoBinderModel =
+        ContainerTextInfoBinderModel("Direction")
+
+    val contCurrentTime: ContainerTextInfoBinderModel =
+        ContainerTextInfoBinderModel("Requested Time")
 
     companion object {
         const val MARLBOROUGH = "mar"
@@ -35,7 +46,8 @@ class ViewModelForecast @Inject constructor(
 
     fun retrieveForecast(currentTime: LocalTime) {
         val isNoonOrMidnight = currentTime == LocalTime.NOON || currentTime == LocalTime.MIDNIGHT
-        val marTimeGap = currentTime.isAfter(LocalTime.MIDNIGHT)&&currentTime.isBefore(LocalTime.NOON)
+        val marTimeGap =
+            currentTime.isAfter(LocalTime.MIDNIGHT) && currentTime.isBefore(LocalTime.NOON)
 
         if (marTimeGap || isNoonOrMidnight) {
             this.repository.retrieveForecast(MARLBOROUGH)
@@ -45,5 +57,10 @@ class ViewModelForecast @Inject constructor(
     }
 
     fun getForecastResponse() = this.repository.lvdForecastResult
+
+    fun getFormattedTime(created: String): String {
+        val parse = DateTimeFormatter.ISO_LOCAL_DATE_TIME.parse(created)
+        return LocalDateTime.from(parse).format(DateTimeFormatter.ofPattern("MMM-dd-YYYY HH:mm"))
+    }
 
 }

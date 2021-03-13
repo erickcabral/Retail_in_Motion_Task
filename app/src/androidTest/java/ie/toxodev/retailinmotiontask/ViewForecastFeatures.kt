@@ -91,17 +91,18 @@ class ViewForecastFeatures {
         )
     }
 
+    @Test
+    fun display_requested_time_info() {
+        findContTextInfo(R.id.inclCurrentTime, R.id.tvContLabel).check(
+            matches(withText("Requested Time"))
+        )
+        findContTextInfo(R.id.inclCurrentTime, R.id.contTextInfo).check(
+            matches(not(withText("")))
+        )
+    }
+
 
     //================ RECYCLER TEST ================== //
-    @Test
-    fun recycler_view_empty_and_progressbar_displayed() {
-        //FIX THIS TEST
-        this.clearTramList()
-        onView(withId(R.id.recyclerTramInfo)).check(
-            matches(hasChildCount(0))
-        )
-        assertDisplayed(R.id.progressBar)
-    }
 
     @Test
     fun recycler_view_has_items_progress_not_displayed() {

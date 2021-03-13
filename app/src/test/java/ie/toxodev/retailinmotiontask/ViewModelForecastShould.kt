@@ -3,6 +3,7 @@ package ie.toxodev.retailinmotiontask
 import ie.toxodev.retailinmotiontask.supportClasses.repository.ForecastRepository
 import ie.toxodev.retailinmotiontask.testUtils.BaseJunitTest
 import ie.toxodev.retailinmotiontask.views.ViewModelForecast
+import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -51,8 +52,18 @@ class ViewModelForecastShould : BaseJunitTest() {
     }
 
     @Test
-    fun update_forecast_info(){
+    fun update_forecast_info() {
         viewModel.getForecastResponse()
         verify(mckdForecastRepository, times(1)).lvdForecastResult
+    }
+
+    @Test
+    fun format_forecast_created_time_to_new_pattern() {
+        val created = "2021-03-13T17:31:24"
+        val formattedTime = "Mar-13-2021 17:31"
+        this.viewModel.getFormattedTime(created).run {
+            assertEquals(this, formattedTime)
+        }
+
     }
 }
