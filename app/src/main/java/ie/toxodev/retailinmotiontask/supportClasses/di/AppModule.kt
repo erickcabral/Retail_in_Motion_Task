@@ -31,8 +31,9 @@ object AppModule {
         interceptor.level = HttpLoggingInterceptor.Level.BODY
         val builder = OkHttpClient.Builder()
         builder.addInterceptor(interceptor)
-            .connectTimeout(5, TimeUnit.SECONDS)
-            .readTimeout(5, TimeUnit.SECONDS)
+            .retryOnConnectionFailure(true)
+            .connectTimeout(2, TimeUnit.SECONDS)
+            .readTimeout(1, TimeUnit.SECONDS)
         return builder.build()
     }
 

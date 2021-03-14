@@ -9,11 +9,11 @@ import com.tickaroo.tikxml.annotation.Xml
 @Xml(name = "stopInfo")
 data class ForecastResponse(
     @Attribute
-    var created: String,
+    var created: String = "",
     @Attribute
-    var stop: String,
+    var stop: String = "",
     @Attribute
-    var stopAbv: String,
+    var stopAbv: String = "",
 
     @PropertyElement(name="message")
     var message: String? = null,

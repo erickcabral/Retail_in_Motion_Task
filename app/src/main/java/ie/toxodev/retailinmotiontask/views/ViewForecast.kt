@@ -1,5 +1,7 @@
 package ie.toxodev.retailinmotiontask.views
 
+import android.net.ConnectivityManager
+import android.net.NetworkInfo
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import androidx.lifecycle.Observer
 import dagger.hilt.android.AndroidEntryPoint
 import ie.toxodev.retailinmotiontask.R
 import ie.toxodev.retailinmotiontask.databinding.ViewForecastBinding
+import ie.toxodev.retailinmotiontask.supportClasses.OutputManager
 import ie.toxodev.retailinmotiontask.supportClasses.forecastResponse.ForecastResponse
 import ie.toxodev.retailinmotiontask.supportClasses.forecastResponse.Tram
 import java.time.LocalTime
@@ -26,7 +29,7 @@ class ViewForecast : Fragment(), View.OnClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        this.retrieveForecast()
+        this.isOnline()
     }
 
     override fun onCreateView(
@@ -49,6 +52,21 @@ class ViewForecast : Fragment(), View.OnClickListener {
         return this.vBinder.root
     }
 
+    private fun isOnline() {
+        requireContext().getSystemService(ConnectivityManager::class.java).run {
+            val status: NetworkInfo? = this.activeNetworkInfo
+            if (status?.isConnectedOrConnecting == true) {
+                retrieveForecast()
+            } else {
+                OutputManager.displayPositiveOnlyAlert(
+                    requireContext(), getString(R.string.alert_no_internet),
+                    getString(R.string.warning_no_internet_connection)
+                )
+            }
+        }
+    }
+
+
     private fun retrieveForecast() {
         vModel.retrieveForecast(LocalTime.now())
     }
@@ -58,7 +76,10 @@ class ViewForecast : Fragment(), View.OnClickListener {
             if (it.isSuccess && it.getOrNull() != null) {
                 updateView(it.getOrNull()!!)
             } else {
-                TODO("TODO")
+                OutputManager.displayPositiveOnlyAlert(
+                    requireContext(), getString(R.string.alert_retrieving_error),
+                    getString(R.string.warning_error_while_retrieving_forecast)
+                )
             }
         })
     }
@@ -67,18 +88,26 @@ class ViewForecast : Fragment(), View.OnClickListener {
         this.vBinder.run {
             this.lineStatus = forecast.message
 
-            this.tramList = forecast.direction[1].tram
 
             this.contStationBinder =
                 vModel.contStationBinder.apply { this.info = forecast.stop }
+
             this.contAbvBinder =
                 vModel.contStationAbvBinder.apply { this.info = forecast.stopAbv }
 
-            this.contDirectionBinder =
-                vModel.contDirectionBinder.apply { this.info = forecast.direction[0].name }
-
             this.contCurrentTime =
-                vModel.contCurrentTime.apply { this.info = vModel.getFormattedTime(forecast.created)}
+                vModel.contCurrentTime.apply {
+                    this.info = vModel.getFormattedTime(forecast.created)
+                }
+
+
+            vModel.getDirectionIndex(forecast.stopAbv, forecast.direction)?.let {index->
+                this.contDirectionBinder =
+                    vModel.contDirectionBinder.apply {
+                        this.info = forecast.direction[index].name
+                    }
+                this.tramList = forecast.direction[index].tram
+            }
         }
     }
 
@@ -87,11 +116,9 @@ class ViewForecast : Fragment(), View.OnClickListener {
             when (v.id) {
                 R.id.floatBtnUpdate -> {
                     this.vBinder.tramList = emptyList<List<Tram>>()
-                    this.retrieveForecast()
+                    this.isOnline()
                 }
             }
         }
     }
-
-
 }

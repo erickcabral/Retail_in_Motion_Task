@@ -1,5 +1,6 @@
 package ie.toxodev.retailinmotiontask
 
+import ie.toxodev.retailinmotiontask.supportClasses.forecastResponse.Direction
 import ie.toxodev.retailinmotiontask.supportClasses.repository.ForecastRepository
 import ie.toxodev.retailinmotiontask.testUtils.BaseJunitTest
 import ie.toxodev.retailinmotiontask.views.ViewModelForecast
@@ -58,12 +59,27 @@ class ViewModelForecastShould : BaseJunitTest() {
     }
 
     @Test
-    fun format_forecast_created_time_to_new_pattern() {
+    fun return_formatted_forecast_created_time_to_new_pattern() {
         val created = "2021-03-13T17:31:24"
-        val formattedTime = "Mar-13-2021 17:31"
+        val formattedTime = "17:31 Mar, 13 2021"
         this.viewModel.getFormattedTime(created).run {
             assertEquals(this, formattedTime)
         }
+    }
 
+    // ================== DIRECTION TEST =================== //
+    private val directionList = listOf(Direction("Inbound"), Direction("Outbound"))
+    @Test
+    fun return_inbound_index_if_stillorgan(){
+        this.viewModel.getDirectionIndex(ViewModelForecast.STILLORGAN, directionList).run {
+            assertEquals(0, this)
+        }
+    }
+
+    @Test
+    fun return_outbound_index_if_marlborough(){
+        this.viewModel.getDirectionIndex(ViewModelForecast.MARLBOROUGH, directionList).run {
+            assertEquals(1, this)
+        }
     }
 }

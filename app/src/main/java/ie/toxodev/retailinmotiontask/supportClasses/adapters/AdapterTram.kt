@@ -21,6 +21,7 @@ class AdapterTram(private val tramList: List<Tram>) :
     override fun onBindViewHolder(holder: ViewHolderTramInfo, position: Int) {
         val model = tramList[position]
         holder.item.model = model
+        holder.item.showDivider = position != tramList.lastIndex
     }
 
     override fun getItemCount() = tramList.size

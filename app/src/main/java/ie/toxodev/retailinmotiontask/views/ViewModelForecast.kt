@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import ie.toxodev.retailinmotiontask.supportClasses.binderModels.ContainerTextInfoBinderModel
+import ie.toxodev.retailinmotiontask.supportClasses.forecastResponse.Direction
 import ie.toxodev.retailinmotiontask.supportClasses.repository.ForecastRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
@@ -32,8 +33,8 @@ class ViewModelForecast @Inject constructor(
         ContainerTextInfoBinderModel("Requested Time")
 
     companion object {
-        const val MARLBOROUGH = "mar"
-        const val STILLORGAN = "sti"
+        const val MARLBOROUGH = "MAR"
+        const val STILLORGAN = "STI"
     }
 
     init {
@@ -60,7 +61,17 @@ class ViewModelForecast @Inject constructor(
 
     fun getFormattedTime(created: String): String {
         val parse = DateTimeFormatter.ISO_LOCAL_DATE_TIME.parse(created)
-        return LocalDateTime.from(parse).format(DateTimeFormatter.ofPattern("MMM-dd-YYYY HH:mm"))
+        return LocalDateTime.from(parse).format(DateTimeFormatter.ofPattern("HH:mm MMM, dd YYYY"))
+    }
+
+    fun getDirectionIndex(stopAbv: String, direction: List<Direction>): Int? {
+        val directionName = if (stopAbv == MARLBOROUGH) "Outbound" else "Inbound"
+        direction.forEachIndexed { index, direction ->
+            if(direction.name == directionName){
+                return index
+            }
+        }
+        return null
     }
 
 }

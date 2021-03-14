@@ -80,7 +80,7 @@
                 android:gravity="center_vertical|center_horizontal"
                 android:textColor="@android:color/holo_red_dark"
                 android:textSize="18sp"
-                bindAdapter:lineStatus="@{lineStatus}"
+                bindAdapter:line_status="@{lineStatus}"
                 tools:text="@string/line_status_operative" />
         </LinearLayout>
 
@@ -145,7 +145,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-            bindAdapter:loadTramInfo="@{tramList}"
+            bindAdapter:load_tram_list="@{tramList}"
             tools:itemCount="5"
             tools:listitem="@layout/container_tram_info" />
 

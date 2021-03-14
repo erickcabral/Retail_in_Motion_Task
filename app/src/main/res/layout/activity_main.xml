@@ -8,6 +8,13 @@
     android:orientation="vertical"
     tools:context=".activities.MainActivity">
 
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/brand_primary_color"
+        tools:title="RIM Task - Erick Cabral "
+        app:titleTextColor="@android:color/white" />
 
     <fragment
         android:id="@+id/navHostMain"
