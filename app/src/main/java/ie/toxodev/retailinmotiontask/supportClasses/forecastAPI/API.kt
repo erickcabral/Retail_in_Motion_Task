@@ -7,9 +7,6 @@ import retrofit2.http.Query
 
 interface API {
 
-//    @Headers(
-//        "content-encoding:gzip"
-//    )
     @GET("xml/get.ashx")
     suspend fun fetchStationForecast(
         @Query("stop") stop: String,
