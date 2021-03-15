@@ -64,9 +64,9 @@ class ViewModelForecast @Inject constructor(
         return LocalDateTime.from(parse).format(DateTimeFormatter.ofPattern("HH:mm MMM, dd YYYY"))
     }
 
-    fun getDirectionIndex(stopAbv: String, direction: List<Direction>): Int? {
+    fun getDirectionIndex(stopAbv: String, dirList: List<Direction>): Int? {
         val directionName = if (stopAbv == MARLBOROUGH) "Outbound" else "Inbound"
-        direction.forEachIndexed { index, direction ->
+        dirList.forEachIndexed { index, direction ->
             if(direction.name == directionName){
                 return index
             }

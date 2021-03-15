@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RetailInMotionTask</string>
+    <string name="app_name">RIM Task</string>
     <string name="line_status_operative">Green Line services operating normally</string>
     <string name="due_min">DUE</string>
     <string name="remaining_min">%s min</string>
