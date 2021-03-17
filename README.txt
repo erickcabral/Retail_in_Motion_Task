@@ -12,7 +12,7 @@
 5 - Fixed Screen Orientation:
 	There is no need for the app to work in Landscape orientation
 
-
+Git: https://github.com/erickcabral/Retail_in_Motion_Task.git
 ======================= TASK DESCRIPTION ======================= 
 RIM Employee LUAS App
 

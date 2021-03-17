@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-package br.toxodev.cinefilo.testUtils
-
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 

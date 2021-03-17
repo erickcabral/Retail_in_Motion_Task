@@ -1,7 +1,7 @@
 package ie.toxodev.retailinmotiontask
 
-import br.toxodev.cinefilo.testUtils.getValueForTest
 import com.nhaarman.mockitokotlin2.whenever
+import getValueForTest
 import ie.toxodev.retailinmotiontask.supportClasses.forecastAPI.ForecastAPI
 import ie.toxodev.retailinmotiontask.supportClasses.forecastResponse.ForecastResponse
 import ie.toxodev.retailinmotiontask.supportClasses.repository.ForecastRepository
